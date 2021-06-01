@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 function App() {
@@ -46,8 +46,42 @@ function App() {
 		// setCount((prevCount) => prevCount + 1)
 		setState(prevState => {return {...prevState, count: prevState.count + 1}})
 	}
+
+	/* *********************** useRef *********************** */
+	const [name, setName] = useState('')
+	const inputRef = useRef()
+	// const [renderCount, setRenderCount] = useState(0)
+	const renderCount = useRef(0)
+	const prevName = useRef('')
+
+	const focus = () => {
+		inputRef.current.focus()
+		setName('Irving')
+	}
+
+	useEffect(() => {
+		renderCount.current = renderCount.current + 1
+		return () => {
+			
+		}
+	})
+
+	useEffect(() => {
+		prevName.current = name
+		return () => {
+			
+		}
+	}, [name])
+
 	return (
 		<div>
+			<input ref={inputRef} type="text" value={name} onChange={event => setName(event.target.value)} />
+			<div>My name is {name}</div>
+			<div>I rendered {renderCount.current} times</div>
+			<div>My name is {name} and it used to be {prevName.current}</div>
+			<button onClick={focus}>Focus</button>
+
+
 			<h1>WIndows width</h1>
 			<h2 >{windowWidth}</h2 >
 			<button onClick={decreementCount}>-</button>
